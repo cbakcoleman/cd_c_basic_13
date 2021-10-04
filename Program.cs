@@ -57,7 +57,7 @@ namespace cd_c_basic_13
             int sum = 0;
             for (int i = 0; i <= 255; i++)
             {
-                sum = sum + i;
+                sum += i; 
                 System.Console.WriteLine($"New number: {i} Sum: {sum}");
             }
         }
@@ -66,9 +66,9 @@ namespace cd_c_basic_13
         {
             // Write a function that would iterate through each item of the given integer array and 
             // print each value to the console. 
-            for (int i = 0; i < numbers.Length; i++)
+            foreach (var num in arr)
             {
-                System.Console.WriteLine(numbers[i]);
+                System.Console.WriteLine(num);
             }
         }
 
@@ -78,14 +78,14 @@ namespace cd_c_basic_13
             // Your program should also work with a given array that has all negative numbers (e.g. [-3, -5, -7]), 
             // or even a mix of positive numbers, negative numbers and zero.
             int maxNum = 0;
-            int idx = 0;
             for (int i = 0; i<numbers.Length; i++)
             {
-                if (numbers[idx] > maxNum)
+                if (numbers[i] > maxNum)
                 {
                     maxNum = numbers[i ]; 
                 }
             }
+            System.Console.WriteLine($"Max is {maxNum}");
             return maxNum;
         }
 
@@ -94,27 +94,27 @@ namespace cd_c_basic_13
             // Write a function that takes an integer array and prints the AVERAGE of the values in the array.
             // For example, with an array [2, 10, 3], your program should write 5 to the console.
             int sum = 0;
-            for (int i = 0; i <= numbers.Length; i++)
+            foreach (int num in numbers)
             {
-                sum = sum + numbers[i];
+                sum += num;;
             }
-            System.Console.WriteLine(sum / numbers.Length);
+            float avg = (float)sum / numbers.Length;
+            System.Console.WriteLine($"Average is {avg}");
         }
 
         public static int[] OddArray()
         {
             // Write a function that creates, and then returns, an array that contains all the odd numbers between 1 to 255. 
             // When the program is done, this array should have the values of [1, 3, 5, 7, ... 255].
-            int[] newArr;
-            for (int i = 1; i <= 255; i++)
+            int size = (255/2) + 1;
+            int[] newArr = new int[size];
+            int count = 0;
+            for (int i = 1; i <= 255; i+=2)
             {
-                if (i % 2 != 0)
-                {
-                    newArr = new int[] {i};
-                }
-                return newArr;
+                newArr[i] = i;
+                count++;
             }
-            return null;
+            return newArr;
         }
 
         public static int GreaterThanY(int[] numbers, int y)
@@ -161,15 +161,21 @@ namespace cd_c_basic_13
         {
             // Given an integer array, say [1, 5, 10, -2], create a function that prints the maximum number in the array, 
             // the minimum value in the array, and the average of the values in the array.
-            int idx = 0;
-            int minNum = 0;
-            for (int i = 0; i < numbers.Length; i++)
-            {
-                if (numbers[i] <= numbers[idx])
+            int currMin = Int32.MaxValue,
+                currMax = Int32.MinValue, 
+                sum = 0;
+
+                foreach(int num in numbers)
                 {
-                    minNum = numbers[i];
+                    sum += num;
+                    if(currMax < num)
+                        currMax = num;
+                    if(currMin > num)
+                        currMin = num;
                 }
-            }
+                System.Console.WriteLine($"Min: {currMin}");
+                System.Console.WriteLine($"Max: {currMax}");
+                System.Console.WriteLine($"Average: {(float)sum / numbers.Length}");
 
         }
 
@@ -179,11 +185,9 @@ namespace cd_c_basic_13
             // Write a function that shifts each number by one to the front and adds '0' to the end. 
             // For example, when the program is done, if the array [1, 5, 10, 7, -2] is passed to the function, 
             // it should become [5, 10, 7, -2, 0].
-            int tempshift = 0;
             for (int i = 0; i <= numbers.Length; i++)
             {
-                tempshift = numbers[i + 1];
-                numbers[i] = tempshift;
+                numbers[i] = numbers[i + 1];
             }
             numbers[numbers.Length -1] = 0;
             System.Console.WriteLine(numbers);
@@ -195,7 +199,18 @@ namespace cd_c_basic_13
             // that replaces any negative number with the string 'Dojo'.
             // For example, if array "numbers" is initially [-1, -3, 2] 
             // your function should return an array with values ['Dojo', 'Dojo', 2].
-            
+            object[] newArr = new object[numbers.Length];
+            for (int i = 0; i < numbers.Length; i++)
+            {
+                if (numbers[i] < 0)
+                {
+                    newArr[i] = "dojo";
+                } else
+                {
+                    newArr[i] = numbers[i];
+                }
+            }
+            return newArr;
         }
     }
 }
